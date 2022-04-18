@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   get '/top' => 'homes#top'
-  get 'lists/new' => 'lists#new', as: 'new_list_path'
+  get 'lists/new' => 'lists#new', as: 'new_list'
   post 'lists' => 'lists#create'
   get 'lists' => 'lists#index'
   get 'lists/:id' => 'lists#show', as: 'list'
