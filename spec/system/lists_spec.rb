@@ -10,7 +10,7 @@ describe '投稿のテスト' do
     end
     context '表示の確認' do
       it 'トップ画面(top_path)に「ここはTopページです」が表示されているか' do
-        expect(page).to have_content("ここはTopページです")
+        expect(page).to have_content 'ここはTopページです'
       end
       it 'top_pathが"/top"であるか' do
         expect(current_path).to eq('/top')
@@ -48,6 +48,32 @@ describe '投稿のテスト' do
       it '一覧表示画面に投稿されたものが表示されているか' do
         expect(page).to have_content list.title
         expect(page).to have_link list.title
+      end
+    end
+  end
+  
+  describe '詳細画面のテスト' do
+    before do
+      visit list_path(list)
+    end
+    context '表示のテスト' do
+      it '削除リンクが存在しているか' do
+        expect(page).to have_link '削除'
+      end
+      it '編集リンクが存在しているか' do
+        expect(page).to have_link '編集'
+      end
+    end
+    context 'リンクの遷移先の確認' do
+      it '編集の遷移先は編集画面か' do
+        edit_link = find_all('a')[3]
+        edit_link.click
+        expect(current_path).to eq('/lists' + list.id.to_s + '/edit')
+      end
+    end
+    context 'list削除のテスト' do
+      it 'listの削除' do
+        expect{ list.destroy }.to change{ List.count }.by(-1)
       end
     end
   end
